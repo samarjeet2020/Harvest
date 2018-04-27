@@ -6,15 +6,23 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sam.ams.component.AMSMasterComponent;
 import com.sam.ams.component.AMSMasterComponentImpl;
 import com.sam.ams.component.CustomerDetailBean;
@@ -26,6 +34,7 @@ import com.sam.ams.component.SiteStatusGridBean;
 import com.sam.ams.dto.MenuDTO;
 import com.sam.ams.dto.PocTable;
 import com.sam.ams.entity.Employee;
+import com.sam.ams.entity.CustomerBilling;
 import com.sam.ams.entity.CustomerBillingInfo;
 import com.sam.ams.service.UserTrayService;
 import com.sam.app.dto.AppCommonBean;
@@ -316,13 +325,28 @@ ModelAndView modelAndView=null;
 		ModelAndView modelAndView=null;
 		
 		CustomerBillingInfo appCommonBean=new CustomerBillingInfo();
-		List<CustomerBillingInfo> list=userTrayService.fetchParkingStatusGriddata(appCommonBean);
+		//List<CustomerBillingInfo> list=userTrayService.fetchParkingStatusGriddata(appCommonBean);
 		modelAndView =new ModelAndView ("ParkingStatusDetail");
-		modelAndView.addObject("dataTableList", list);
+		//modelAndView.addObject("dataTableList", list);
 		return modelAndView;
 	}
 	
-
+	@RequestMapping(value="/addBillingDetail", method = RequestMethod.POST)
+	public ModelAndView addBillingDetail(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView modelAndView=null;
+		
+		
+		System.out.println(request.getParameter("customerName"));
+		System.out.println(request.getParameter("customerID"));
+		System.out.println(request.getParameter("amount"));
+		System.out.println(request.getParameter("remarks"));
+		System.out.println(request.getParameter("workType"));
+		System.out.println(request.getParameter("totalUnit"));
+		System.out.println(request.getParameter("chargePerUnit"));
+		modelAndView =new ModelAndView ("ParkingStatusDetail");
+		//modelAndView.addObject("dataTableList", list);
+		return modelAndView;
+	}
 	
 
 	

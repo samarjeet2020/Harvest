@@ -9,9 +9,27 @@
     <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
      <script src="<c:url value="/resources/js/parkingjs.js" />"></script>
  <script src="<c:url value="/resources/js/jquery.dataTables.min.js" />"></script>
+         <script src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
+                   <link href="<c:url value="/resources/css/jquery-ui.min.css" />" rel="stylesheet">
 
 <script type="text/javascript">
 	$(document).ready(function() {
+		
+		jQuery('#ui-datepicker-div').remove();
+		  $( "#validFrom" ).datepicker({			 
+		      changeMonth: true,//this option for allowing user to select month
+		      changeYear: true,
+		      maxDate: new Date()
+		  }); 		
+		  
+		  $( "#validTo" ).datepicker({			 
+		      changeMonth: true,//this option for allowing user to select month
+		      changeYear: true,
+		      maxDate: new Date()
+		  }); 		
+		
+		
+		
 		$('#userListTable').DataTable(
 		
 		{
@@ -369,12 +387,12 @@
                     
                    <div class="form-group">
                           <label for="datefrom">Valid From<r>*</r></label>
-                          <input type="text" class="form-control" id="validFrom" placeholder="Valid From" name="validFrom" maxlength="100"/>
+                          <input type="text" class="form-control" id="validFrom"  name="validFrom" maxlength="100"readonly="readonly"/>
                         </div>
 
    <div class="form-group">
                           <label for="dateTo">Valid To<r>*</r></label>
-                          <input type="text" class="form-control" id="validTo" placeholder="Valid To" name="validTo" maxlength="100"/>
+                          <input type="text" class="form-control" id="validTo" name="validTo"readonly="readonly"/>
                         </div>
 
                       

@@ -5,28 +5,124 @@
     <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet">
      <link href="<c:url value="/resources/css/parkingcss.css" />" rel="stylesheet">
       <link href="<c:url value="/resources/css/style-4g.css" />" rel="stylesheet">
+          <link href="<c:url value="/resources/css/jquery-ui.min.css" />" rel="stylesheet">
+          <link href="<c:url value="/resources/css/jquery-ui.css" />" rel="stylesheet">
     <script src="<c:url value="/resources/js/jquery-1.12.3.js" />"></script>
+      <script src="<c:url value="/resources/js/jquery-ui.js" />"></script>
+        <script src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
+<%--       <script src="<c:url value="/resources/js/jquery.min.js" />"></script> --%>
     <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
      <script src="<c:url value="/resources/js/parkingjs.js" />"></script>
  <script src="<c:url value="/resources/js/jquery.dataTables.min.js" />"></script>
 
 <script type="text/javascript">
+
+	
 	$(document).ready(function() {
 		$('#sitestatusGrid').DataTable(
-		
+
 		{
-		 "initComplete": function(settings, json) {
-        									 hideNMSLoader();
-                                          }
+			"initComplete" : function(settings, json) {
+				hideNMSLoader();
+			}
 		});
 
 	});
-	
-	
 
-	
-	
-	
+
+	  var data = [
+	              {
+	                  "id": 1,
+	                  "first_name": "Will"
+	              },
+	              {
+	                  "id": 2,
+	                  "first_name": "Willem"
+	              },{
+	                  "id": 3,
+	                  "first_name": "Abhishek"
+	              }
+	          ];
+	  
+	var aCleanData = ['aaa:1','aab:2','faa:3','fff:4','ffb:5','fgh:6','mmm:7','maa:8'];
+	$('#search_').autocomplete({
+	    source: aCleanData,
+	    minLength: 2,
+	    select: function (event, ui) {
+	    	
+	    	 var sValue = $(event.target).val().trim();
+            $.map(data, function (value,key) {
+            var val_=value.first_name;// to maintain actual value
+       
+            if (val_== sValue) {
+            
+            	$('#id_').val(value.id);
+			
+            }
+            
+            
+        });
+	    	
+	    },
+	    search: function(oEvent, oUi) {
+	        // get current input value
+	        var sValue = $(oEvent.target).val();
+	        // init new search array
+	        var aSearch = [];
+	        // for each element in the main array ...
+	        
+	        
+	     /*    
+	        $.map(data, function (value, key) {
+                
+                    alert(value.first_name);
+                   
+                
+            }); */
+	        
+	        
+	        
+	      //  $(aCleanData).each(function(iIndex, sElement) {
+	            // ... if element starts with input value ...
+	            
+	            $.map(data, function (value,key) {
+	            var val_=value.first_name;// to maintain actual value
+	          	val_1=val_.toLowerCase();// converting into lowercase to compare
+	            if (val_1.substr(0, sValue.length) == sValue.toLowerCase()) {
+	            	
+	            
+	                // ... add element
+	                aSearch.push(val_);// pushing acctual value
+	            }
+	        });
+	 
+	            
+	            
+	            // change search array
+	        $(this).autocomplete('option', 'source', aSearch);
+	    }
+	});
+            
+           
+            
+            
+            function addBillingDetail(){
+            	
+            	
+        
+            	
+            	
+            	var dataObj ="customerID="+$("#id_").val()+"&customerName="+$("#search_").val()+"&workType="+$("#wrkType").val()+"&totalUnit="+$("#quantity_").val()
+            	+"&chargePerUnit="+$("#qntityChrg").val()+"&amount="+$("#amount_").val()+"&remarks="+$("#remarks_").val();
+            			
+            			
+            	
+          
+            	
+            	submitJSON(dataObj, 'addBillingDetail');
+            	
+            }
+            
 </script>
 
 
@@ -101,6 +197,7 @@
 </c:choose>
 
 	</div>
+	
 	<div id="nmsdataGrid" class="userListClass">
 		<div class="title1"><h4>Billing Detail</h4></div>
 		<table  id="sitestatusGrid" cellspacing="0" width="100%" >
@@ -109,12 +206,12 @@
 				<th width="3%">ID</th>
 				<th width="3%">Customer Id</th>
                 <th width="4%">Name</th>
-                <th width="4%">Work Type</th>
+                <th width="10%">Work Type</th>
                 <th width="4%">Quantity</th>
-                <th width="4%">Quantity Charge</th>
+                <th width="10%">Quantity Charge</th>
                 <th width="4%">Amount</th>
                 <th width="4%">Remarks</th>
-                <th width="4%">Edit</th>
+           
                
 				</tr>
 			</thead>
@@ -122,48 +219,67 @@
 
 	
 			<tbody>
+			
+			
+					<tr>
+				<td width="3%" id="field0ID"> 1  </td>
+			
+		 	<td width="4%" id="field1ID"> <input type="text" id="id_" name="id_" readonly="readonly" value=""></td>
+		 	<td width="4%" id="field2ID"> <input type="text" id="search_" name="search_" maxlength="10"></td> 
+	
+			<td width="10%" id="field7ID"> <select id="wrkType" style="width: 98%">
+			<option value="0">Select WorkType</option>
+			<option value="1">Normal WorkType</option>
+			</select></td>
+			<td width="4%" id="field3ID"> <input type="text" id="quantity_" name="quantity_" maxlength="5"></td>
+			<td width="10%" id="field4ID">
+			
+			 <select id="qntityChrg" style="width: 98%">
+			<option value="0">Select Charge</option>
+			<option value="1">Normal Charges</option>
+			</select>
+			</td>
+			<td width="4%" id="field5ID"> <input type="text" id="amount_" name="amount_" maxlength="8"></td>
+			<td width="4%" id="field6ID"> <input type="text" id="remarks_" name="remarks_" maxlength="50"></td>
+			
+			    
+                        
+                     
+						
+					</tr>
 				<c:forEach items="${dataTableList}" var="dataTableList" varStatus="varStatus">
 					<tr>
-				<td width="3%" id="field0ID"> ${dataTableList.Id}  </td>
+			
+			
+				<td width="3%" id="field0ID"> ${varStatus.count+1}  </td>
 				<td width="4%" id="field1ID"> ${dataTableList.customerID}</td>
-			<td width="4%" id="field2ID"> ${dataTableList.customerName}</td>
-			<td width="4%" id="field2ID"> ${dataTableList.workType}</td>
+		 	<td width="4%" id="field2ID"> ${dataTableList.customerName}</td> 
+			<td width="10%" id="field7ID"> ${dataTableList.workType}</td>
 			<td width="4%" id="field3ID"> ${dataTableList.totalUnit}</td>
-			<td width="4%" id="field4ID"> ${dataTableList.chargePerUnit}</td>
+			<td width="10%" id="field4ID"> ${dataTableList.chargePerUnit}</td>
 			<td width="4%" id="field5ID"> ${dataTableList.cashDeposit}</td>
 			<td width="4%" id="field6ID"> ${dataTableList.remarks}</td>
 			
-			     <td width="4%"></td>
+			    
                         
                      
 						
 					</tr>
 				 </c:forEach>
-				 <form action="" method="post" id="frmdailyEntry">
-				 <tr>
 				 
-				<td width="3%" id="field0ID"> </td>
-				<td width="4%" id="field1ID">   <input type="text"  id="customerID" name="customerID" placeholder="customerID" maxlength="100" readonly/></td>
-			<td width="4%" id="field2ID"> ${dataTableList.customerName}</td>
-			<td width="4%" id="field2ID"> ${dataTableList.workType}</td>
-			<td width="4%" id="field3ID"> ${dataTableList.totalUnit}</td>
-			<td width="4%" id="field4ID"> ${dataTableList.chargePerUnit}</td>
-			<td width="4%" id="field5ID"> ${dataTableList.cashDeposit}</td>
-			<td width="4%" id="field6ID"> ${dataTableList.remarks}</td>
-			
-			     <td width="4%"></td>
-                        
-                     
-						
-					</tr> 
-					</form >
+				 
+				 
+				 
+				 
+				 
+				 
+				 
 			</tbody>
 			<tfoot>
        	<tr>
        		<td colspan="8" align="right">
   
-       			<a id="modalAddButton" class="btn btn-primary"
-		           href="javascript:void(0)"  none" data-toggle="modal" data-target="#myModal">Add</a>
+       			<input type="button" class="btn btn-primary" onclick="addBillingDetail()">Add</a>
         		
        		
        		</td>

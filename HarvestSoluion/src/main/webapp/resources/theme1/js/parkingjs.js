@@ -852,13 +852,11 @@ function submitJSON(data, action) {
 	var JSONdata = JSON.stringify(data);
 	var dataForm = new FormData();
 	dataForm.append('data', JSONdata);
-	dataForm.append('interceptorParam', $('#interceptorParam').val());
 	$.ajax({
 		type : 'POST',
 		url : action + '.action?',
-		data : dataForm,
+		data : data,
 		cache : false,
-		contentType : false,
 		processData : false,
 		async : true,
 		success : function(result) {
