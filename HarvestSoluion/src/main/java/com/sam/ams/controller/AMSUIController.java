@@ -7,22 +7,17 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sam.ams.component.AMSMasterComponent;
 import com.sam.ams.component.AMSMasterComponentImpl;
 import com.sam.ams.component.CustomerDetailBean;
@@ -30,13 +25,15 @@ import com.sam.ams.component.DataTableGridBean;
 import com.sam.ams.component.LoginComponent;
 import com.sam.ams.component.LoginComponentImpl;
 import com.sam.ams.component.MenuComponentImpl;
-import com.sam.ams.component.SiteStatusGridBean;
 import com.sam.ams.dto.MenuDTO;
 import com.sam.ams.dto.PocTable;
-import com.sam.ams.entity.Employee;
-import com.sam.ams.entity.CustomerBilling;
 import com.sam.ams.entity.CustomerBillingInfo;
+import com.sam.ams.entity.CustomerInfo;
+import com.sam.ams.entity.Employee;
+import com.sam.ams.entity.LuRateSlab;
+import com.sam.ams.service.ParkingLookupService;
 import com.sam.ams.service.UserTrayService;
+import com.sam.ams.service.impl.ParkingLookupServiceImpl;
 import com.sam.app.dto.AppCommonBean;
 import com.sam.test.service.EmployeeService;
 
@@ -48,6 +45,8 @@ public class AMSUIController {
 	private EmployeeService employeeService;
 	 @Autowired
 	 UserTrayService userTrayService;
+	 @Autowired
+	 ParkingLookupService parkingLookupService;
 
 	/*@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView getData() {
@@ -185,61 +184,7 @@ public class AMSUIController {
 
 		return modelAndView;
 	}
-	
-	@RequestMapping(value="/graph", method = RequestMethod.POST)
-	public ModelAndView getGraphPage(ModelMap model) {
-		ModelAndView modelAndView=null;
-	
-		modelAndView =new ModelAndView ("CHART1");
 
-		return modelAndView;
-	}
-	
-	@RequestMapping(value="/graph2", method = RequestMethod.POST)
-	public ModelAndView getGraphPage2(ModelMap model) {
-		ModelAndView modelAndView=null;
-	
-		modelAndView =new ModelAndView ("CHART2");
-
-		return modelAndView;
-	}
-	
-	@RequestMapping(value="/graph3", method = RequestMethod.POST)
-	public ModelAndView getGraphPage3(ModelMap model) {
-		ModelAndView modelAndView=null;
-	
-		modelAndView =new ModelAndView ("CHART3");
-
-		return modelAndView;
-	}
-	
-	
-	@RequestMapping(value="/graphdata", method = RequestMethod.POST)
-	public ModelAndView getGraphPageData(ModelMap model) {
-		ModelAndView modelAndView=null;
-	
-		modelAndView =new ModelAndView ("CHART1");
-
-		return modelAndView;
-	}
-	
-	/**
-	 * 
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value="/usertray", method = RequestMethod.POST)
-	public ModelAndView userTray(ModelMap model) {
-ModelAndView modelAndView=null;
-		
-		AppCommonBean appCommonBean=new AppCommonBean();
-		List<DataTableGridBean> list=userTrayService.getATMRequestMessages(appCommonBean);
-		modelAndView =new ModelAndView ("DefectUserTray");
-		modelAndView.addObject("dataTableList", list);
-		return modelAndView;
-	}
-	
-	
 	/**
 	 * 
 	 * @param model
@@ -254,27 +199,6 @@ ModelAndView modelAndView=null;
 		modelAndView =new ModelAndView ("EmployeeList");
 		modelAndView.addObject("dataTableList", list);
 		return modelAndView;
-	}
-	
-	@RequestMapping(value="/boozeItem", method = RequestMethod.POST)
-	public ModelAndView booseItems(ModelMap model) {
-		ModelAndView modelAndView=null;
-		AMSMasterComponent AMSMasterComponent=new AMSMasterComponentImpl();
-		AppCommonBean appCommonBean=new AppCommonBean();
-		List<CustomerDetailBean> customersList =AMSMasterComponent.listAllCustomer(appCommonBean);
-		modelAndView =new ModelAndView ("BoozeItems");
-		modelAndView.addObject("customersList", customersList);
-		return modelAndView;
-	}
-	@RequestMapping(value="/rate.c", method = RequestMethod.POST)
-	public String getRate(ModelMap model) {
-		model.addAttribute("greeting", "Rate List will be display soon");
-		return "Customer";
-	}
-	@RequestMapping(value="/type", method = RequestMethod.POST)
-	public String getTypes(ModelMap model) {
-		model.addAttribute("greeting", "Type page is under cunstruction");
-		return "BoozeItems";
 	}
 	
 	
@@ -323,10 +247,26 @@ ModelAndView modelAndView=null;
 	@RequestMapping(value="/billingDetail", method = RequestMethod.POST)
 	public ModelAndView getParkingStatusGriddata(ModelMap model) {
 		ModelAndView modelAndView=null;
-		
-		CustomerBillingInfo appCommonBean=new CustomerBillingInfo();
-		//List<CustomerBillingInfo> list=userTrayService.fetchParkingStatusGriddata(appCommonBean);
 		modelAndView =new ModelAndView ("ParkingStatusDetail");
+		AppCommonBean appCommonBean=new AppCommonBean();
+		List<com.sam.ams.bean.CustomerDetailBean> list=userTrayService.getCustomerList(appCommonBean);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonInString = mapper.writeValueAsString(list);
+			modelAndView.addObject("customerList", jsonInString);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		LuRateSlab luRateSlab=new LuRateSlab();
+		List<LuRateSlab> rateList=parkingLookupService.fetchRateSlabList(luRateSlab);
+		modelAndView.addObject("rateList", rateList);
+		
+		//List<CustomerBillingInfo> list=userTrayService.fetchParkingStatusGriddata(appCommonBean);
+		
 		//modelAndView.addObject("dataTableList", list);
 		return modelAndView;
 	}
@@ -350,74 +290,5 @@ ModelAndView modelAndView=null;
 	
 
 	
-	
-	
-	@RequestMapping(value = "poctable", method = RequestMethod.GET)
-	public ModelAndView pocTable(HttpServletRequest request) {
-	
-			ModelAndView modelAndView = null;
-			modelAndView =new ModelAndView ("PocTable");
-			
-			String siteName=request.getParameter("siteName");
-			String siteId=request.getParameter("siteId");
-			String mobileNumber=request.getParameter("mobileNumber");
-			
-			
-			
-			String siteStaus=request.getParameter("siteStatus");
-			String commercialPower=request.getParameter("commercialPower");
-			String dg=request.getParameter("dg");
-			String loadStatus=request.getParameter("loadStatus");
-			String batVolt=request.getParameter("batVolt");
-			String temp=request.getParameter("temp");
-			String mainsContractor=request.getParameter("mainsContractor");
-			String dgContractor=request.getParameter("dgContractor");
-			String dgBat=request.getParameter("dgBat");
-			String dgSafety1=request.getParameter("dgSafety1");
-			String dgSafety2=request.getParameter("dgSafety2");
-			String dgFuelLevel=request.getParameter("dgFuelLevel");
-			String dgRunHours=request.getParameter("dgRunHours");
-			String batRunHours=request.getParameter("batRunHours");
-			String mainRunHours=request.getParameter("mainRunHours");
-
-			
-			
-			PocTable tbl = new PocTable();
-			
-			tbl.setSiteName(siteName);
-			tbl.setSiteId(siteId);
-			tbl.setMobileNumber(mobileNumber);
-			
-			tbl.setBatRunHours(batRunHours);
-			tbl.setBatVolt(batVolt);
-			tbl.setDgRunHours(dgRunHours);
-			tbl.setCommercialPower(commercialPower);
-			tbl.setDg(dg);
-			tbl.setDgBat(dgBat);
-			tbl.setDgContractor(dgContractor);
-			tbl.setDgFuelLevel(dgFuelLevel);
-			tbl.setDgSafety1(dgSafety1);
-			tbl.setDgSafety2(dgSafety2);
-			tbl.setLoadStatus(loadStatus);
-			tbl.setMainRunHours(mainRunHours);
-			tbl.setMainsContractor(mainsContractor);
-			tbl.setSiteStaus(siteStaus);
-			tbl.setTemp(temp);
-			
-			
-			
-			List<PocTable> obj= new ArrayList<PocTable>();
-			obj.add(tbl);
-			
-
-			Map<String,Object> map= new HashMap<String, Object>();
-		
-			
-			map.put("dataTableList", obj);
-			
-			modelAndView.addObject("map", map);
-	
-		return modelAndView;
-	}
 	
 }

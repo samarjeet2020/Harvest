@@ -29,8 +29,8 @@
 
 	});
 
-
-	  var data = [
+//[{"id":2,"first_name":"Samarjeet Yadav"},{"id":4,"first_name":"Ram"}]
+	/*   var data = [
 	              {
 	                  "id": 1,
 	                  "first_name": "Will"
@@ -42,8 +42,9 @@
 	                  "id": 3,
 	                  "first_name": "Abhishek"
 	              }
-	          ];
-	  
+	          ];  */
+	  var  data=${customerList};
+	 
 	var aCleanData = ['aaa:1','aab:2','faa:3','fff:4','ffb:5','fgh:6','mmm:7','maa:8'];
 	$('#search_').autocomplete({
 	    source: aCleanData,
@@ -228,17 +229,13 @@
 		 	<td width="4%" id="field2ID"> <input type="text" id="search_" name="search_" maxlength="10"></td> 
 	
 			<td width="10%" id="field7ID"> <select id="wrkType" style="width: 98%">
-			<option value="0">Select WorkType</option>
-			<option value="1">Normal WorkType</option>
+			<c:forEach items="${rateList}" var="rateList" >
+			<option value="${rateList.rateId}"   rateValue="${rateList.rateValue}">${rateList.workType}</option>
+			</c:forEach>
 			</select></td>
 			<td width="4%" id="field3ID"> <input type="text" id="quantity_" name="quantity_" maxlength="5"></td>
-			<td width="10%" id="field4ID">
-			
-			 <select id="qntityChrg" style="width: 98%">
-			<option value="0">Select Charge</option>
-			<option value="1">Normal Charges</option>
-			</select>
-			</td>
+			<td width="4%" id="field4ID"> <input type="text" id="qntityChrg" name="qntityChrg" maxlength="5"></td>
+		
 			<td width="4%" id="field5ID"> <input type="text" id="amount_" name="amount_" maxlength="8"></td>
 			<td width="4%" id="field6ID"> <input type="text" id="remarks_" name="remarks_" maxlength="50"></td>
 			
@@ -343,6 +340,6 @@
 
   </div>
 </div>
-
+<input type="text" id="customerauto" value="${customerList}" />
 </body>
 </html>

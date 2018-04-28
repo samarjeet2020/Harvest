@@ -322,7 +322,7 @@
 			</tbody>
      <tfoot>
        	<tr>
-       		<td colspan="8" align="right">
+       		<td colspan="9" align="right">
   
        			<a id="modalAddButton" class="btn btn-primary"
 		           href="javascript:void(0)"  none" data-toggle="modal" data-target="#myModal">Add</a>

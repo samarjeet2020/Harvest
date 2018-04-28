@@ -7,16 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sam.ams.component.CustomerDetailBean;
 import com.sam.ams.component.DataTableGridBean;
-import com.sam.ams.component.SiteStatusGridBean;
+import com.sam.ams.dao.ParkingLookupDAO;
 import com.sam.ams.dao.UserTrayDAO;
+import com.sam.ams.dao.impl.ParkingLookupDAOImpl;
 import com.sam.ams.dto.ATMRequestMessageDTO;
 import com.sam.ams.entity.ATMRequestMessageEntity;
 import com.sam.ams.entity.ATMTicketsEntity;
+import com.sam.ams.entity.CustomerBillingInfo;
+import com.sam.ams.entity.CustomerInfo;
 import com.sam.ams.entity.DefectsRequestEntity;
 import com.sam.ams.entity.Employee;
-import com.sam.ams.entity.CustomerBillingInfo;
-import com.sam.ams.entity.SiteDetailsEntity;
 import com.sam.ams.service.UserTrayService;
 import com.sam.app.dto.AppCommonBean;
 
@@ -26,6 +28,9 @@ public class UserTrayServiceImpl implements UserTrayService {
 
 	@Autowired
 	private UserTrayDAO  userTrayDAO;
+	
+	@Autowired
+	private ParkingLookupDAO	parkingLookupDAO;
 	//EmployeeDAO employeeDAO =new EmployeeDAOImpl();
 	
 	
@@ -209,6 +214,23 @@ public class UserTrayServiceImpl implements UserTrayService {
 	
 		return userTrayDAO.fetchParkingStatusGriddata(appCommonBean);
 		
+	}
+	
+	
+	public List<com.sam.ams.bean.CustomerDetailBean> getCustomerList(AppCommonBean appCommonBean)
+	{
+		
+		List<CustomerInfo> list=parkingLookupDAO.fetchMembersList(null);
+		com.sam.ams.bean.CustomerDetailBean custmerBean=null;
+		List<com.sam.ams.bean.CustomerDetailBean> lst=new ArrayList<>();
+		for( CustomerInfo customerInfo: list)
+		{
+			custmerBean =new com.sam.ams.bean.CustomerDetailBean();
+			custmerBean.setId(customerInfo.getCustomerID());
+			custmerBean.setFirstName(customerInfo.getName());
+			lst.add(custmerBean);
+		}
+		return lst;
 	}
 	
 	

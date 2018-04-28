@@ -13,10 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.sam.ams.component.LoginComponent;
 import com.sam.ams.component.LoginComponentImpl;
+import com.sam.ams.entity.CustomerInfo;
 import com.sam.ams.entity.LuMemberType;
 import com.sam.ams.entity.LuRateSlab;
-import com.sam.ams.entity.LuVehicleType;
-import com.sam.ams.entity.CustomerInfo;
 import com.sam.ams.entity.ParkingUser;
 import com.sam.ams.service.ParkingLookupService;
 import com.sam.app.dto.AppCommonBean;
