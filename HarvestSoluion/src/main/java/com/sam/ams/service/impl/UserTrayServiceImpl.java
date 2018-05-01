@@ -15,6 +15,7 @@ import com.sam.ams.dao.impl.ParkingLookupDAOImpl;
 import com.sam.ams.dto.ATMRequestMessageDTO;
 import com.sam.ams.entity.ATMRequestMessageEntity;
 import com.sam.ams.entity.ATMTicketsEntity;
+import com.sam.ams.entity.BillingDetail;
 import com.sam.ams.entity.CustomerBillingInfo;
 import com.sam.ams.entity.CustomerInfo;
 import com.sam.ams.entity.DefectsRequestEntity;
@@ -231,6 +232,18 @@ public class UserTrayServiceImpl implements UserTrayService {
 			lst.add(custmerBean);
 		}
 		return lst;
+	}
+
+
+	@Override
+	public void addBillingDetail(BillingDetail billingDetail) {
+		userTrayDAO.addBillingDetail(billingDetail);
+	}
+
+
+	@Override
+	public List<BillingDetail> getBillingDetail(BillingDetail billingDetail) {
+		return userTrayDAO.getBillingDetail(billingDetail);
 	}
 	
 	

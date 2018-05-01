@@ -14,6 +14,11 @@
     <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
      <script src="<c:url value="/resources/js/parkingjs.js" />"></script>
  <script src="<c:url value="/resources/js/jquery.dataTables.min.js" />"></script>
+ <script src="<c:url value="/resources/js/jquery.tmpl.min.js" />"></script>
+ <script src="<c:url value="/resources/js/multilist.js" />"></script>
+ <link href="<c:url value="/resources/css/multilist.css" />" rel="stylesheet">
+ 
+		
 
 <script type="text/javascript">
 
@@ -26,85 +31,25 @@
 				hideNMSLoader();
 			}
 		});
+		
+		var datalist = ${customerList};
+		
+								$('#demo').multilist({
+				
+				  datalist: datalist,
+				  single: true,
+				  onChange: function (value,text) {
+				  $('#search_').val(text.trim());
+				  $('#id_').val(value);
+				  
+				 // alert("hi:"+value+text);
+				  }
+				  
+				
+				});
+
 
 	});
-
-//[{"id":2,"first_name":"Samarjeet Yadav"},{"id":4,"first_name":"Ram"}]
-	/*   var data = [
-	              {
-	                  "id": 1,
-	                  "first_name": "Will"
-	              },
-	              {
-	                  "id": 2,
-	                  "first_name": "Willem"
-	              },{
-	                  "id": 3,
-	                  "first_name": "Abhishek"
-	              }
-	          ];  */
-	  var  data=${customerList};
-	 
-	var aCleanData = ['aaa:1','aab:2','faa:3','fff:4','ffb:5','fgh:6','mmm:7','maa:8'];
-	$('#search_').autocomplete({
-	    source: aCleanData,
-	    minLength: 2,
-	    select: function (event, ui) {
-	    	
-	    	 var sValue = $(event.target).val().trim();
-            $.map(data, function (value,key) {
-            var val_=value.first_name;// to maintain actual value
-       
-            if (val_== sValue) {
-            
-            	$('#id_').val(value.id);
-			
-            }
-            
-            
-        });
-	    	
-	    },
-	    search: function(oEvent, oUi) {
-	        // get current input value
-	        var sValue = $(oEvent.target).val();
-	        // init new search array
-	        var aSearch = [];
-	        // for each element in the main array ...
-	        
-	        
-	     /*    
-	        $.map(data, function (value, key) {
-                
-                    alert(value.first_name);
-                   
-                
-            }); */
-	        
-	        
-	        
-	      //  $(aCleanData).each(function(iIndex, sElement) {
-	            // ... if element starts with input value ...
-	            
-	            $.map(data, function (value,key) {
-	            var val_=value.first_name;// to maintain actual value
-	          	val_1=val_.toLowerCase();// converting into lowercase to compare
-	            if (val_1.substr(0, sValue.length) == sValue.toLowerCase()) {
-	            	
-	            
-	                // ... add element
-	                aSearch.push(val_);// pushing acctual value
-	            }
-	        });
-	 
-	            
-	            
-	            // change search array
-	        $(this).autocomplete('option', 'source', aSearch);
-	    }
-	});
-            
-           
             
             
             function addBillingDetail(){
@@ -225,9 +170,14 @@
 					<tr>
 				<td width="3%" id="field0ID"> 1  </td>
 			
-		 	<td width="4%" id="field1ID"> <input type="text" id="id_" name="id_" readonly="readonly" value=""></td>
-		 	<td width="4%" id="field2ID"> <input type="text" id="search_" name="search_" maxlength="10"></td> 
+		 	<td width="2%" id="field1ID"> <input type="text" id="id_" name="id_" readonly="readonly" value=""></td>
+		 	<!-- <td width="4%" id="field2ID"> <input type="text" id="search_" name="search_" maxlength="10"></td>  -->
 	
+<td width="10%" id="field2ID">
+ <input type="hidden" id="search_" name="search_" value="" maxlength="10">
+<div id="demo" name="demo"></div>			<!-- Dropdown List Option -->
+			</select>
+		</td>
 			<td width="10%" id="field7ID"> <select id="wrkType" style="width: 98%">
 			<c:forEach items="${rateList}" var="rateList" >
 			<option value="${rateList.rateId}"   rateValue="${rateList.rateValue}">${rateList.workType}</option>
@@ -340,6 +290,6 @@
 
   </div>
 </div>
-<input type="text" id="customerauto" value="${customerList}" />
+
 </body>
 </html>

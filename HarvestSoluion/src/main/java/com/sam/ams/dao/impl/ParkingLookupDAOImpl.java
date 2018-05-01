@@ -9,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.sam.ams.dao.ParkingLookupDAO;
+import com.sam.ams.entity.BillingDetail;
+import com.sam.ams.entity.CustomerInfo;
 import com.sam.ams.entity.LuMemberType;
 import com.sam.ams.entity.LuRateSlab;
 import com.sam.ams.entity.LuVehicleType;
-import com.sam.ams.entity.CustomerInfo;
 import com.sam.ams.entity.ParkingUser;
 
 @Repository
@@ -184,6 +185,8 @@ public class ParkingLookupDAOImpl implements ParkingLookupDAO {
 		session.close();
 		
 	}
+	
+	
 	
 	
 	

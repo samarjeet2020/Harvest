@@ -11,34 +11,34 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-"id",
-"first_name"
+"value",
+"text"
 })
 public class CustomerDetailBean {
 
-@JsonProperty("id")
+@JsonProperty("value")
 private Integer id;
-@JsonProperty("first_name")
+@JsonProperty("text")
 private String firstName;
 @JsonIgnore
 private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-@JsonProperty("id")
+@JsonProperty("value")
 public Integer getId() {
 return id;
 }
 
-@JsonProperty("id")
+@JsonProperty("value")
 public void setId(Integer id) {
 this.id = id;
 }
 
-@JsonProperty("first_name")
+@JsonProperty("text")
 public String getFirstName() {
 return firstName;
 }
 
-@JsonProperty("first_name")
+@JsonProperty("text")
 public void setFirstName(String firstName) {
 this.firstName = firstName;
 }

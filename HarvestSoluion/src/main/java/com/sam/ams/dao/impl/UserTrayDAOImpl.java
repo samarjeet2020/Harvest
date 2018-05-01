@@ -15,6 +15,7 @@ import com.sam.ams.dao.UserTrayDAO;
 import com.sam.ams.dto.DefectsWrapperDTO;
 import com.sam.ams.entity.ATMRequestMessageEntity;
 import com.sam.ams.entity.ATMTicketsEntity;
+import com.sam.ams.entity.BillingDetail;
 import com.sam.ams.entity.DefectsRequestEntity;
 import com.sam.ams.entity.Employee;
 import com.sam.ams.entity.CustomerBillingInfo;
@@ -112,6 +113,40 @@ public class UserTrayDAOImpl implements UserTrayDAO {
 		session.close();
 		
 	}
+	
+	
+	
+	
+	
+
+	public void addBillingDetail(BillingDetail billingDetail) {
+		Session session = sessionFactory.openSession();
+	//	Transaction tx = session.beginTransaction();
+		session.save(billingDetail);
+	//	tx.commit();
+		session.close();
+		
+	}
+	
+	
+	public List<BillingDetail> getBillingDetail(BillingDetail BillingDetail) {
+		Session session = sessionFactory.openSession();
+		Criteria criteria = null;
+		List<BillingDetail> results=null;
+		try {
+			criteria = session.createCriteria(BillingDetail.class);
+            results =criteria.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return results;
+		
+	}
+	
 	
 	
 	public void systemGeneratedTickets(ATMTicketsEntity atmRequestMessageEntity) {

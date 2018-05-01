@@ -5,6 +5,7 @@ import java.util.List;
 import com.sam.ams.dto.DefectsWrapperDTO;
 import com.sam.ams.entity.ATMRequestMessageEntity;
 import com.sam.ams.entity.ATMTicketsEntity;
+import com.sam.ams.entity.BillingDetail;
 import com.sam.ams.entity.DefectsRequestEntity;
 import com.sam.ams.entity.Employee;
 import com.sam.ams.entity.CustomerBillingInfo;
@@ -27,5 +28,6 @@ public interface UserTrayDAO {
 	public void addSiteStatusDetail(SiteDetailsEntity siteDetailsEntity);
 	public void updateSiteStatusDetail(SiteDetailsEntity siteDetailsEntity);
 	public List<CustomerBillingInfo> fetchParkingStatusGriddata(CustomerBillingInfo appCommonBean);
-
+	public void addBillingDetail(BillingDetail billingDetail);
+	public List<BillingDetail> getBillingDetail(BillingDetail BillingDetail);
 }

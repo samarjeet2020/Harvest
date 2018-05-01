@@ -5,6 +5,7 @@ import java.util.List;
 import com.sam.ams.entity.LuMemberType;
 import com.sam.ams.entity.LuRateSlab;
 import com.sam.ams.entity.LuVehicleType;
+import com.sam.ams.entity.BillingDetail;
 import com.sam.ams.entity.CustomerInfo;
 import com.sam.ams.entity.ParkingUser;
 
@@ -24,6 +25,8 @@ public interface ParkingLookupDAO {
 	public void addMemberDetail(CustomerInfo parkingMembersInfo);
 	public List<ParkingUser> fetchParkingUserList(ParkingUser parkingUser);
 	public void addParkingUserDetail(ParkingUser parkingUser);
+	
+	
 	
 
 }

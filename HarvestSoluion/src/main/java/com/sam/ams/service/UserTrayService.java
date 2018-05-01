@@ -5,6 +5,7 @@ import java.util.List;
 import com.sam.ams.bean.CustomerDetailBean;
 import com.sam.ams.component.DataTableGridBean;
 import com.sam.ams.dto.ATMRequestMessageDTO;
+import com.sam.ams.entity.BillingDetail;
 import com.sam.ams.entity.CustomerBillingInfo;
 import com.sam.ams.entity.DefectsRequestEntity;
 import com.sam.app.dto.AppCommonBean;
@@ -20,4 +21,7 @@ public interface UserTrayService {
 	
 	public List<DataTableGridBean> getEmployeeList(AppCommonBean appCommonBean);
 	public List<CustomerDetailBean> getCustomerList(AppCommonBean appCommonBean);
+	
+	public void addBillingDetail(BillingDetail billingDetail);
+	public List<BillingDetail> getBillingDetail(BillingDetail BillingDetail);
 }

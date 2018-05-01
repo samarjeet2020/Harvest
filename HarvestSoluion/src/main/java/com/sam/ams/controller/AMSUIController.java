@@ -27,6 +27,7 @@ import com.sam.ams.component.LoginComponentImpl;
 import com.sam.ams.component.MenuComponentImpl;
 import com.sam.ams.dto.MenuDTO;
 import com.sam.ams.dto.PocTable;
+import com.sam.ams.entity.BillingDetail;
 import com.sam.ams.entity.CustomerBillingInfo;
 import com.sam.ams.entity.CustomerInfo;
 import com.sam.ams.entity.Employee;
@@ -264,10 +265,9 @@ ModelAndView modelAndView=null;
 		LuRateSlab luRateSlab=new LuRateSlab();
 		List<LuRateSlab> rateList=parkingLookupService.fetchRateSlabList(luRateSlab);
 		modelAndView.addObject("rateList", rateList);
-		
-		//List<CustomerBillingInfo> list=userTrayService.fetchParkingStatusGriddata(appCommonBean);
-		
-		//modelAndView.addObject("dataTableList", list);
+		BillingDetail v=new BillingDetail();
+		List<BillingDetail > dataTableList=userTrayService.getBillingDetail(v);
+		modelAndView.addObject("dataTableList", dataTableList);
 		return modelAndView;
 	}
 	
@@ -285,6 +285,37 @@ ModelAndView modelAndView=null;
 		System.out.println(request.getParameter("chargePerUnit"));
 		modelAndView =new ModelAndView ("ParkingStatusDetail");
 		//modelAndView.addObject("dataTableList", list);
+		BillingDetail billingDetail=new BillingDetail();
+		billingDetail.setCustomerID(request.getParameter("customerID"));
+		billingDetail.setCustomerName(request.getParameter("customerName"));
+		billingDetail.setChargePerUnit(Integer.parseInt(request.getParameter("chargePerUnit")));
+		billingDetail.setTotalChargeAfterDiscount(Integer.parseInt(request.getParameter("amount")));
+		billingDetail.setTotalUnit(request.getParameter("totalUnit"));
+		billingDetail.setRemarks(request.getParameter("remarks"));
+		userTrayService.addBillingDetail( billingDetail);
+		
+		
+		
+		
+		AppCommonBean appCommonBean=new AppCommonBean();
+		List<com.sam.ams.bean.CustomerDetailBean> list=userTrayService.getCustomerList(appCommonBean);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			String jsonInString = mapper.writeValueAsString(list);
+			modelAndView.addObject("customerList", jsonInString);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		LuRateSlab luRateSlab=new LuRateSlab();
+		List<LuRateSlab> rateList=parkingLookupService.fetchRateSlabList(luRateSlab);
+		modelAndView.addObject("rateList", rateList);
+		BillingDetail v=new BillingDetail();
+		List<BillingDetail > dataTableList=userTrayService.getBillingDetail(v);
+		modelAndView.addObject("rateList", dataTableList);
 		return modelAndView;
 	}
 	
