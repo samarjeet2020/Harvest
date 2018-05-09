@@ -50,6 +50,9 @@ public class BillingDetail implements Serializable {
 
 	@Column(name="REMARKS")
 	private String remarks;
+	
+	@Column(name="WORK_TYPE")
+	private String workType;
 
 
 	/**
@@ -193,6 +196,22 @@ public class BillingDetail implements Serializable {
 	 */
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+
+	/**
+	 * @return the workType
+	 */
+	public String getWorkType() {
+		return workType;
+	}
+
+
+	/**
+	 * @param workType the workType to set
+	 */
+	public void setWorkType(String workType) {
+		this.workType = workType;
 	}
 
 

@@ -255,7 +255,7 @@ ModelAndView modelAndView=null;
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String jsonInString = mapper.writeValueAsString(list);
-			modelAndView.addObject("customerList", jsonInString);
+			modelAndView.addObject("customerList", list);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -303,7 +303,7 @@ ModelAndView modelAndView=null;
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String jsonInString = mapper.writeValueAsString(list);
-			modelAndView.addObject("customerList", jsonInString);
+			modelAndView.addObject("customerList", list);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -315,7 +315,7 @@ ModelAndView modelAndView=null;
 		modelAndView.addObject("rateList", rateList);
 		BillingDetail v=new BillingDetail();
 		List<BillingDetail > dataTableList=userTrayService.getBillingDetail(v);
-		modelAndView.addObject("rateList", dataTableList);
+		modelAndView.addObject("dataTableList", dataTableList);
 		return modelAndView;
 	}
 	

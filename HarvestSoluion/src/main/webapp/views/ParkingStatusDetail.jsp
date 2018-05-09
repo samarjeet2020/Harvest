@@ -7,50 +7,50 @@
       <link href="<c:url value="/resources/css/style-4g.css" />" rel="stylesheet">
           <link href="<c:url value="/resources/css/jquery-ui.min.css" />" rel="stylesheet">
           <link href="<c:url value="/resources/css/jquery-ui.css" />" rel="stylesheet">
-    <script src="<c:url value="/resources/js/jquery-1.12.3.js" />"></script>
-      <script src="<c:url value="/resources/js/jquery-ui.js" />"></script>
-        <script src="<c:url value="/resources/js/jquery-ui.min.js" />"></script>
-<%--       <script src="<c:url value="/resources/js/jquery.min.js" />"></script> --%>
+     <script src="<c:url value="/resources/js/jquery.min.js" />"></script>
     <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
      <script src="<c:url value="/resources/js/parkingjs.js" />"></script>
  <script src="<c:url value="/resources/js/jquery.dataTables.min.js" />"></script>
- <script src="<c:url value="/resources/js/jquery.tmpl.min.js" />"></script>
- <script src="<c:url value="/resources/js/multilist.js" />"></script>
- <link href="<c:url value="/resources/css/multilist.css" />" rel="stylesheet">
- 
+
 		
 
 <script type="text/javascript">
 
 	
 	$(document).ready(function() {
-		$('#sitestatusGrid').DataTable(
-
-		{
-			"initComplete" : function(settings, json) {
-				hideNMSLoader();
-			}
-		});
 		
-		var datalist = ${customerList};
 		
-								$('#demo').multilist({
-				
-				  datalist: datalist,
-				  single: true,
-				  onChange: function (value,text) {
-				  $('#search_').val(text.trim());
-				  $('#id_').val(value);
-				  
-				 // alert("hi:"+value+text);
-				  }
-				  
-				
-				});
+		$('#sitestatusGrid').DataTable({
+		
+		 });
+		
+		$('#custsearchGrid').DataTable(
+	{
+	"paging":   false,
+        "ordering": true,
+        "info":     false
+    });
 
+		
+		
+	});	
+		
+function showSearchDiv(){
+$("#customerdropdown").show();
+}
 
-	});
-            
+function setCustInfo(e)
+{
+var PAR = $(e).parent();
+	
+	
+	var custId = $(PAR).find("#custID").text().trim();
+	var custName = $(PAR).find("#custName").text().trim();
+	$("#id_").val(custId);
+	$("#search_").val(custName);
+	$("#customerdropdown").hide();
+
+}
             
             function addBillingDetail(){
             	
@@ -167,33 +167,7 @@
 			<tbody>
 			
 			
-					<tr>
-				<td width="3%" id="field0ID"> 1  </td>
-			
-		 	<td width="2%" id="field1ID"> <input type="text" id="id_" name="id_" readonly="readonly" value=""></td>
-		 	<!-- <td width="4%" id="field2ID"> <input type="text" id="search_" name="search_" maxlength="10"></td>  -->
-	
-<td width="10%" id="field2ID">
- <input type="hidden" id="search_" name="search_" value="" maxlength="10">
-<div id="demo" name="demo"></div>			<!-- Dropdown List Option -->
-			</select>
-		</td>
-			<td width="10%" id="field7ID"> <select id="wrkType" style="width: 98%">
-			<c:forEach items="${rateList}" var="rateList" >
-			<option value="${rateList.rateId}"   rateValue="${rateList.rateValue}">${rateList.workType}</option>
-			</c:forEach>
-			</select></td>
-			<td width="4%" id="field3ID"> <input type="text" id="quantity_" name="quantity_" maxlength="5"></td>
-			<td width="4%" id="field4ID"> <input type="text" id="qntityChrg" name="qntityChrg" maxlength="5"></td>
-		
-			<td width="4%" id="field5ID"> <input type="text" id="amount_" name="amount_" maxlength="8"></td>
-			<td width="4%" id="field6ID"> <input type="text" id="remarks_" name="remarks_" maxlength="50"></td>
-			
-			    
-                        
-                     
-						
-					</tr>
+					
 				<c:forEach items="${dataTableList}" var="dataTableList" varStatus="varStatus">
 					<tr>
 			
@@ -216,7 +190,50 @@
 				 
 				 
 				 
-				 
+				 <tr>
+				<td width="3%" id="field0ID"> 1  </td>
+			
+		 	<td width="2%" id="field1ID"> <input type="text" id="id_" name="id_" readonly="readonly" ></td>
+		 	<!-- <td width="4%" id="field2ID"> <input type="text" id="search_" name="search_" maxlength="10"></td>  -->
+	
+<td width="4%" id="field2ID"> <input type="text" id="search_" name="search_" readonly="readonly" onclick="showSearchDiv()">
+
+<div id="customerdropdown" style="display : none"> 
+<table  id="custsearchGrid"  >
+<thead align="center">
+				<tr>
+				<th width="3%">ID</th>
+				<th width="3%">Customer Id</th>
+				</tr>
+				</thead>	
+<tbody>
+<c:forEach items="${customerList}" var="customerList" >
+<tr>
+<td  id="custID"> ${customerList.id}</td>
+<td  id="custName" onclick="setCustInfo(this)"> <a href="#">${customerList.firstName} </a></td> 
+</tr>
+</c:forEach>
+</tbody>
+
+</table>
+</div>
+</td>
+			<td width="10%" id="field7ID"> <select id="wrkType" style="width: 98%">
+			<c:forEach items="${rateList}" var="rateList" >
+			<option value="${rateList.rateId}"   rateValue="${rateList.rateValue}">${rateList.workType}</option>
+			</c:forEach>
+			</select></td>
+			<td width="4%" id="field3ID"> <input type="text" id="quantity_" name="quantity_" maxlength="5"></td>
+			<td width="4%" id="field4ID"> <input type="text" id="qntityChrg" name="qntityChrg" maxlength="5"></td>
+		
+			<td width="4%" id="field5ID"> <input type="text" id="amount_" name="amount_" maxlength="8"></td>
+			<td width="4%" id="field6ID"> <input type="text" id="remarks_" name="remarks_" maxlength="50"></td>
+			
+			    
+                        
+                     
+						
+					</tr>
 				 
 				 
 				 
@@ -226,7 +243,7 @@
        	<tr>
        		<td colspan="8" align="right">
   
-       			<input type="button" class="btn btn-primary" onclick="addBillingDetail()">Add</a>
+       			<button  class="btn btn-primary" onclick="addBillingDetail()"><a> Add</a></button>
         		
        		
        		</td>
