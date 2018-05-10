@@ -280,7 +280,7 @@
 						<td width="3%" id="tdsrNoId"><c:out value="${dataTableList.customerID}"/></td>
 						<td  width="9%" id="tdfield2"><c:out value="${dataTableList.memberCode}"/></td>
 
-						<td  width="9%" id="tdfield4"><c:out value="${dataTableList.name}"/></td>
+						<td  width="9%" id="tdfield4"><a href="#" onclick="getCustomerBillingDetail('${dataTableList.customerID}','${dataTableList.name}')"> ${dataTableList.name}</a></td>
 						<td  width="9%" id="tdfield4"><c:out value="${dataTableList.fatherName}"/></td>
 						<td  width="9%" id="tdfield4"><c:out value="${dataTableList.mobile}"/></td>
 						<td  width="9%" id="tdfield4"><c:out value="${dataTableList.email}"/></td>

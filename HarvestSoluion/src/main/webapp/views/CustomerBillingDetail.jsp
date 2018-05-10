@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>Billing Detail</title>
+<title> ${custmerNameR} =>Billing Detail</title>
     <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet">
      <link href="<c:url value="/resources/css/parkingcss.css" />" rel="stylesheet">
       <link href="<c:url value="/resources/css/style-4g.css" />" rel="stylesheet">
@@ -24,12 +24,7 @@
 		
 		 });
 		
-		$('#custsearchGrid').DataTable(
-	{
-	"paging":   false,
-        "ordering": true,
-        "info":     false
-    });
+		
 
 		
 		
@@ -145,7 +140,7 @@ var PAR = $(e).parent();
 	</div>
 	
 	<div id="nmsdataGrid" class="userListClass">
-		<div class="title1"><h4>Billing Detail</h4></div>
+		<div class="title1"><h4>${custmerNameR} =>Billing Detail</h4></div>
 		<table  id="sitestatusGrid" cellspacing="0" width="100%" >
 			<thead align="center">
 				<tr>
@@ -190,35 +185,24 @@ var PAR = $(e).parent();
 				 
 				 
 				 
-				 <tr>
+				 
+				 
+				 
+				 
+				 
+			</tbody>
+			<tfoot>
+			<tr>
 				<td width="3%" id="field0ID"> 1  </td>
 			
-		 	<td width="2%" id="field1ID"> <input type="text" id="id_" name="id_" readonly="readonly" ></td>
+		 	<td width="2%" id="field1ID"> <input type="text" id="id_" name="id_" value="${custmerIdR}" readonly="readonly" ></td>
 		 	<!-- <td width="4%" id="field2ID"> <input type="text" id="search_" name="search_" maxlength="10"></td>  -->
 	
-<td width="4%" id="field2ID"> <input type="text" id="search_" name="search_" readonly="readonly" onclick="showSearchDiv()">
+<td width="4%" id="field2ID"> <input type="text" id="search_" name="search_" value="${custmerNameR}"readonly="readonly" >
 
-<div id="customerdropdown" style="display : none"> 
-<table  id="custsearchGrid"  >
-<thead align="center">
-				<tr>
-				<th width="3%">ID</th>
-				<th width="3%">Customer Id</th>
-				</tr>
-				</thead>	
-<tbody>
-<c:forEach items="${customerList}" var="customerList" >
-<tr>
-<td  id="custID"> ${customerList.id}</td>
-<td  id="custName" onclick="setCustInfo(this)"> <a href="#">${customerList.firstName} </a></td> 
-</tr>
-</c:forEach>
-</tbody>
 
-</table>
-</div>
 </td>
-			<td width="10%" id="field7ID"> <select id="wrkType" style="width: 98%">
+			<td width="10%" id="field7ID"> <select id="wrkType" >
 			<c:forEach items="${rateList}" var="rateList" >
 			<option value="${rateList.rateId}"   rateValue="${rateList.rateValue}">${rateList.workType}</option>
 			</c:forEach>
@@ -234,16 +218,10 @@ var PAR = $(e).parent();
                      
 						
 					</tr>
-				 
-				 
-				 
-				 
-			</tbody>
-			<tfoot>
        	<tr>
        		<td colspan="8" align="right">
   
-       			<button  class="btn btn-primary" onclick="addBillingDetail()"><a> Add</a></button>
+       			<button  class="btn btn-primary" onclick="addBillingDetail()"> Pay Due</button>
         		
        		
        		</td>

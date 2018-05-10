@@ -106,7 +106,7 @@ public class AMSUIController {
 		AppCommonBean outAppCommonBean=loginComponent.authonticateUser(appCommonBean);
 		if(true==outAppCommonBean.getIsLogin())
 		{
-	    modelAndView =new ModelAndView ("ParkingSystem");
+	    modelAndView =new ModelAndView ("HarvestHomePage");
 		MenuComponentImpl menuComponentImpl=new MenuComponentImpl();
 		List<MenuDTO> menuList =menuComponentImpl.fetchMenu(appCommonBean);
 		modelAndView.addObject("menuList", menuList);
@@ -214,7 +214,7 @@ ModelAndView modelAndView=null;
 		employee.setLogedIn("Y");
 		employeeService.createEmployee(employee);
 		ModelAndView modelAndView = null;
-		modelAndView =new ModelAndView ("ParkingSystem");
+		modelAndView =new ModelAndView ("HarvestHomePage");
 		AppCommonBean appCommonBean=new AppCommonBean();
 		MenuComponentImpl menuComponentImpl=new MenuComponentImpl();
 		List<MenuDTO> menuList =menuComponentImpl.fetchMenu(appCommonBean);
@@ -232,7 +232,7 @@ ModelAndView modelAndView=null;
 			modelAndView =new ModelAndView ("AMSLogin");
 			modelAndView.addObject("errorMessage", "*Invalid credential!!");
 		} else {
-			modelAndView =new ModelAndView ("ParkingSystem");
+			modelAndView =new ModelAndView ("HarvestHomePage");
 			modelAndView.addObject("emp", emp.getName());
 			AppCommonBean appCommonBean=new AppCommonBean();
 			appCommonBean.setLoginid(emp.getUsername());
@@ -248,7 +248,7 @@ ModelAndView modelAndView=null;
 	@RequestMapping(value="/billingDetail", method = RequestMethod.POST)
 	public ModelAndView getParkingStatusGriddata(ModelMap model) {
 		ModelAndView modelAndView=null;
-		modelAndView =new ModelAndView ("ParkingStatusDetail");
+		modelAndView =new ModelAndView ("DailyBillingDetail");
 		AppCommonBean appCommonBean=new AppCommonBean();
 		List<com.sam.ams.bean.CustomerDetailBean> list=userTrayService.getCustomerList(appCommonBean);
 		
@@ -283,7 +283,7 @@ ModelAndView modelAndView=null;
 		System.out.println(request.getParameter("workType"));
 		System.out.println(request.getParameter("totalUnit"));
 		System.out.println(request.getParameter("chargePerUnit"));
-		modelAndView =new ModelAndView ("ParkingStatusDetail");
+		modelAndView =new ModelAndView ("DailyBillingDetail");
 		//modelAndView.addObject("dataTableList", list);
 		BillingDetail billingDetail=new BillingDetail();
 		billingDetail.setCustomerID(request.getParameter("customerID"));
@@ -319,6 +319,29 @@ ModelAndView modelAndView=null;
 		return modelAndView;
 	}
 	
+	
+	
+	
+	
+
+	@RequestMapping(value="/billingDetailByCustomer", method = RequestMethod.POST)
+	public ModelAndView getBillingDetailByCustomer(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView modelAndView=null;
+		modelAndView =new ModelAndView ("CustomerBillingDetail");
+		BillingDetail v=new BillingDetail();
+		v.setCustomerID(request.getParameter("customerID"));
+		v.setCustomerName(request.getParameter("customerName"));
+		modelAndView.addObject("custmerIdR", request.getParameter("customerID"));
+		modelAndView.addObject("custmerNameR", request.getParameter("customerName"));
+		
+		LuRateSlab luRateSlab=new LuRateSlab();
+		List<LuRateSlab> rateList=parkingLookupService.fetchRateSlabList(luRateSlab);
+		modelAndView.addObject("rateList", rateList);
+		
+		List<BillingDetail > dataTableList=userTrayService.getBillingDetail(v);
+		modelAndView.addObject("dataTableList", dataTableList);
+		return modelAndView;
+	}
 
 	
 	

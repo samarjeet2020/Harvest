@@ -846,6 +846,17 @@ function doEditRoleNumberType(e) {
 	}
 }
 
+function getCustomerBillingDetail(id,customerName){
+		
+	var dataObj ="customerID="+id+"&customerName="+customerName;
+			
+	
+	
+	submitJSON(dataObj, 'billingDetailByCustomer');
+	
+}
+
+
 function submitJSON(data, action) {
 	$('.loader').show();
     $('#loader-overlay').show();

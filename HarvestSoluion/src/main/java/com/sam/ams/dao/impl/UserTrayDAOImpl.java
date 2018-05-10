@@ -129,12 +129,18 @@ public class UserTrayDAOImpl implements UserTrayDAO {
 	}
 	
 	
-	public List<BillingDetail> getBillingDetail(BillingDetail BillingDetail) {
+	public List<BillingDetail> getBillingDetail(BillingDetail billingDetail) {
 		Session session = sessionFactory.openSession();
 		Criteria criteria = null;
 		List<BillingDetail> results=null;
 		try {
 			criteria = session.createCriteria(BillingDetail.class);
+			if(null!=billingDetail && null!=billingDetail.getCustomerID() && ! "".equals(billingDetail.getCustomerID()))
+			{
+			Criterion criterion = Restrictions.eq("customerID", billingDetail.getCustomerID());
+			criteria.add(criterion);
+			}
+			
             results =criteria.list();
 		} catch (Exception e) {
 			e.printStackTrace();
